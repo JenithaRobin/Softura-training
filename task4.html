@@ -1,0 +1,125 @@
+<html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<body>
+<head>
+<style>
+.container {
+background-color: rgba(0, 0, 0, 0.3);
+border-bottom-left-radius: 50% 40%;
+border-bottom-right-radius: 50% 40%;
+}
+nav{
+float:left;
+max-width:160px;
+margin:0;
+padding:lem;
+}
+nav ul{
+list-style-type:none;
+padding:lem;
+}
+article{
+margin-left:170px;
+border-left:1px solid gray;
+}
+</style>
+</head>
+<p>Responsive Image</p>
+<img src="D:\DOWNLOAD\birds.jpg"style="width:100%">
+<div>
+<nav style="background-color:#bcdfff">
+<h1 style="text-align:center">Navigation Links</h1>
+<ul>
+<li><a href ="#">Hi</a></li>
+<li><a href ="#">Hello</a></li>
+<li><a href ="#">Vanakam</a></li>
+<li><a href ="#">Namestae</a></li>
+</ul>
+</nav>
+<header><h1>Learning is Fun</h1></header>
+<nav>
+<ul>
+<li><a href="#">HTML</a></li>
+<li><a href="#">CSS</a></li>
+<li><a href="#">JavaScript</a></li>
+<li><a href="#">JQuery</a></li>
+</ul>
+</nav>
+<article>
+<p><h2>Html</h2>
+Why do we use it?
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+</p>
+<p><h2>CSS</h2>
+Why do we use it?
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+</p>
+<p><h2></h2></p>
+</article>
+<div class="container" align="center">
+   <h1>Cursive Writing</h1>
+   <h2>Cursive Writing</h2>
+   <h2>Cursive Writing</h2>
+   <h2>Cursive Writing</h2>
+</div>
+<h1>JS document dot write</h1>
+<!--<script>
+ document.write("Learning is fun");
+</script>-->
+<script>
+window.alert(2+2);
+</script>-->
+<!--<script>
+ alert(2+2)
+</script>-->
+<button onclick="window.print()">Print</button>
+<footer>Copyrights reserved</footer>
+</div>
+<h1>JS variables</h1>
+<p id ="p1"></p>
+<p id ="p2"></p>
+<p id ="Para"></p>
+
+<!--<script>
+   var num1 =45;
+   var num2 =25;
+   var res =num1+num2;
+document.getElementById("p1").innerHTML=res;
+</script>-->
+<script>
+    num1 =15;
+    num2 =25;
+    res =num1+num2;
+document.getElementById("p1").innerHTML=res;
+
+let subject="JavaScript";
+document.getElementById("p2").innerHTML=subject;
+let corp="Softura",year=2022,tech="DotNet";
+
+document.getElementById("Para").innerHTML=corp+" "+year+" "+"is getting trained in"+" "+tech;
+</script>
+<h1>JavaScript Events</h1>
+<p>Come here-let see how to get focus</br>
+Go Away-lets see how to lose focus
+</p>
+<p id="p1">
+</p>
+<script>
+setInterval("Fokus()",1);
+function Fokus()
+{
+var str;
+if(document.hasFocus())
+{
+str="Got Focus";
+}
+else
+{
+str="Lost Focus";
+}
+document.getElementById("p1").innerHTML=str;
+}
+
+</script>
+</body>
+</html>
