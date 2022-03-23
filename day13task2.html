@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript">
+        function validateForm() {
+            var fn = document.forms["myForm"]["fname"].value;
+            if (fn == "") {
+
+                alert("Please enter correct info");
+                return false;
+            }
+        }
+    </script>
+</head>
+  
+    <body bgcolor="LightGray">
+        <h2 align="center" style="color:red"><i><big><u>Registeration Form</u></big></i></h2>
+
+        <form action="Index1.html">
+            <table>
+                <tr>First Name:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="fname" required />&nbsp
+                <tr>Last  Name:&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="lname" required/>
+                <br />
+
+                <tr>Email:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="mail" required />&nbsp
+                <br />
+                <tr>Contact No:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="Cnumb" required />
+                <br />
+                <tr>Permanent Address:&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="paddr" required/>&nbsp
+                <br />
+                <tr>Pincode:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="cloca" required/>&nbsp
+                <br />
+                <tr>Country:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr>
+                <input type="text" name="count" required/>&nbsp
+                <br />
+
+                <tr>
+                    <td rowspan="2">
+                        <label>Gender:</label><br />
+                    </td>
+                    <br />
+                    <td>
+                        <input type="radio" name="gen" value="Male" required><label>Male</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="gen" value="Female" required><label>Female</label><br />
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <td rowspan="4"><label>Qualification:</label></td>
+                    <td>
+                        <input type="checkbox" name="qual" value="Bsc" required><label>Bsc</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="qual" value="BCA" required><label>BCA</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="qual" value="Btech" required><label>Btech</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="qual" value="BE" required><label>BE</label>
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <td rowspan="2"><label>Do you have Arrears:</label></td>
+                    <td>
+                        <input type="checkbox" name="arrears" value="Yes" required><label>Yes</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="arrears" value="No" required><label>No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><label>Current CGPA:</label></td>
+                    <td>
+                        <input type="checkbox" name="Marks" value="80%-98%" required><label>80%-98%</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="Marks" value="70%-80%" required><label>70%-80%</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="Marks" value="65%-70%" required><label>65%-70%</label>
+                    </td>
+                </tr>
+
+            </table>
+             <big><input type="submit" value="Submit"></big><br/><br/>
+        </form>
+    </body>
+</html>
