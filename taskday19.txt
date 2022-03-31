@@ -1,0 +1,21 @@
+   create table tsk_regform
+   (
+   FirstName varchar(20),
+   LastName varchar(20),
+   age int
+   Constraint ck_regage check(Age>=18),
+   Gender varchar(1)
+   Constraint ck_reggen check(gender in('M','F')),
+   EmailID varchar(20),
+   Contactno varchar(10),
+   SSLCmarks int,
+   HScmarks int,
+   Regno int constraint PK_preg Primary Key(Regno),
+   Degree varchar(20),
+   No_of_arrears int,
+   Year_of_passing int,
+   place varchar(20)
+   )
+    insert into tsk_regform values('Jeni','Mary',20,'F','jeni@gmail.com','9987456123',450,980,002,'Bcom',1,2021,'Pune')
+
+	select * from tsk_regform
