@@ -1,0 +1,141 @@
+use AdventureWorks2019
+go
+----task1
+ select firstname,lastname
+ from Person.Person
+ where Title  is not null
+ ----task2
+ select firstname,lastname
+ from Person.Person
+ where firstName like '%a%' or Lastname like '%a%'
+ go
+ ----task3
+ select SCR.CurrencyCode,Name
+ from Sales.Currency,Sales.CountryRegionCurrency SCR
+ ---task4
+ SELECT * into HR_Dept FROM HumanResources.Department 
+select * from HR_Dept
+go
+----task5
+create table task5 
+(
+Sno int identity (21,1),
+FName varchar(20),
+Lname Varchar(20),
+age int,
+gender char(1)
+)
+insert into task5 values('Jeni','A',20,'F')
+insert into task5 values('Jenifer','S',21,'F')
+insert into task5 values('Joel','A',19,'M')
+insert into task5 values('Jaleen','J',37,'F')
+insert into task5 values('Josphin','A',52,'F')
+insert into task5 values('Jenifer','A',26,'F')
+insert into task5 values('Johnson','S',47,'M')
+insert into task5 values('Jesika','V',5,'F')
+insert into task5 values('Jerone','A',25,'M')
+insert into task5 values('Jesi','A',45,'F')
+insert into task5 values('Jerson','V',12,'M')
+insert into task5 values('Jease','F',17,'M')
+insert into task5 values('John','D',54,'M')
+insert into task5 values('Jo','D',49,'M')
+insert into task5 values('Julie','T',45,'F')
+insert into task5 values('Robinjeni','T',22,'M')
+insert into task5 values('Anto','J',29,'M')
+insert into task5 values('Chindo','J',22,'M')
+insert into task5 values('Melvin','J',5,'M')
+
+select * from task5
+----task6
+select Badd.BusinessEntityID, Addresstypeid, Hdept.DepartmentID
+from HumanResources.Department Hdept
+join HumanResources.EmployeeDepartmentHistory eDept
+on  Hdept.DepartmentID = Edept.DepartmentID
+join Person.BusinessEntityAddress Badd
+on eDept.BusinessEntityID = Badd.BusinessEntityID
+----task7
+Select distinct GroupName from HumanResources.Department
+----task8
+Select Phis.StandardCost,sum(ListPrice)sum1,sum(Phis.StandardCost+ListPrice)sum2
+from Production.ProductCostHistory Phis
+join Production.Product pd
+on phis.ProductID = pd.ProductID
+group by Phis.StandardCost
+---task9
+select DATEDIFF(YY,StartDate,EndDate) as Years_on_role
+from HumanResources.EmployeeDepartmentHistory
+----///or
+--select datediff(YY,'2007-12-05','2010-05-30')years_on_role
+--from HumanResources.EmployeeDepartmentHistory
+---task10
+select sum(SalesQuota)
+from Sales.SalesPersonQuotaHistory
+where(SalesQuota>5000) and (SalesQuota<100000)
+group by SalesQuota
+
+---task11
+select max(TaxRate)as Max_taxrate
+from Sales.SalesTaxRate
+---task12
+select dept.DepartmentID,emp.BusinessEntityID,ShiftID,BirthDate
+from HumanResources.Department dept
+join HumanResources.EmployeeDepartmentHistory Edept
+on dept.DepartmentID = Edept.DepartmentID
+join HumanResources.Employee emp
+on Edept.BusinessEntityID = emp.BusinessEntityID
+Select BirthDate,getdate() as CurrentDate, datediff(YY,BirthDate,getdate()) as age 
+from HumanResources.Employee
+go
+---task13
+create view Named_age
+as
+Select BirthDate, getdate() as CurrentDate, datediff(YY,BirthDate,getdate()) as age 
+from HumanResources.Employee
+go
+ 
+---task14
+select count(*) as no_of_rows_hr from HumanResources.Department,HumanResources.JobCandidate,
+HumanResources.EmployeeDepartmentHistory,HumanResources.EmployeePayHistory,
+[HumanResources].[Shift]
+
+---task15
+select max(rate)as maxirate,Name
+from HumanResources.EmployeePayHistory ehis
+join HumanResources.EmployeeDepartmentHistory emp
+on ehis.BusinessEntityID = emp.BusinessEntityID
+join HumanResources.Department hdept
+on emp.DepartmentID =hdept.DepartmentID
+Group by Name
+
+---task16
+select FirstName,MiddleName,title,AddressTypeID,padd.BusinessEntityID 
+from Person.Person pper
+left outer join Person.BusinessEntityAddress Padd
+on pper.BusinessEntityID = Padd.BusinessEntityID
+where Title is not null
+
+
+---task17
+select ProductID ,LocationID
+from Production.ProductInventory
+where ProductID>300 and ProductID<=350 and LocationID=50 
+
+---task18
+select ploc.LocationID, Shelf,Name
+from Production.ProductInventory pinv
+join Production.Location ploc
+on pinv.LocationID = ploc.LocationID
+
+---task19
+select AddressID,AddressLine1,AddressLine2, padd.StateProvinceID,StateProvinceCode,CountryRegionCode
+from Person.StateProvince Stpro
+join Person.Address padd
+on  Stpro.StateProvinceID = padd.StateProvinceID
+---task20
+select Sum(SubTotal),Sum(TaxAmt)as Total
+from Sales.CountryRegionCurrency Scurr
+join Sales.SalesTerritory Sterr
+on  Scurr.CountryRegionCode = Sterr.CountryRegionCode
+join Sales.SalesOrderHeader Sohead
+on Sterr.TerritoryID = Sohead.TerritoryID
+group by Sterr.TerritoryID
