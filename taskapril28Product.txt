@@ -129,7 +129,7 @@ View:Index.cshtml
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-In nuget console app: created Migration
+In nuget console : created Migration
 
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
