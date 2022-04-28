@@ -1,0 +1,165 @@
+Models:Product1.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
+namespace ProductEFCore.Models
+{
+    public class Product1
+    {
+        [Key]
+        [Required]
+        public int Prodid { get; set; }
+        public string Prodname { get; set; }
+        public string Price { get; set; }
+        public DateTime Expirydate { get; set; }
+    }
+}
+
+
+Models: Product1DBcontext.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+namespace ProductEFCore.Models
+{
+    public class Product1DBcontext : DbContext
+    {
+        //creating 2 constructor for context and pass the parameters and follow Dbcontext 
+        public Product1DBcontext()
+        {
+
+        }
+        public Product1DBcontext(DbContextOptions<Product1DBcontext> options) : base(options)
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP-0SAKDNQM;Initial Catalog=Deptstores;Integrated Security=True");
+        }
+        //Movie is class,Movies is collection/set
+        public virtual DbSet<Product1> Products { get; set; }
+
+    }
+}
+
+
+Controller:Product1Controller.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using ProductEFCore.Models;
+
+namespace ProductEFCore.Controllers
+{
+    public class Product1Controller : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Create(Product1 pro)
+        {
+            if (ModelState.IsValid)
+            {
+                Product1DBcontext dBContext = new Product1DBcontext();
+                dBContext.Add(pro);
+                dBContext.SaveChanges();
+                return Content("Saved Successfully");
+            }
+            return View("Index");
+        }
+    }
+}
+
+View:Index.cshtml
+
+@model ProductEFCore.Models.Product1
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h4>Product1</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Product1" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Prodname" class="control-label"></label>
+                <input asp-for="Prodname" class="form-control" />
+                <span asp-validation-for="Prodname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Expirydate" class="control-label"></label>
+                <input asp-for="Expirydate" class="form-control" />
+                <span asp-validation-for="Expirydate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+In nuget console app: created Migration
+
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace ProductEFCore.Migrations
+{
+    public partial class Initialmigration : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Prodid = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Prodname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expirydate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Prodid);
+                });
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Products");
+        }
+    }
+}
