@@ -70,14 +70,26 @@ namespace AdoMVC.DAL
                 }
             }
             return listCustomer;
+          }
+        public int NewCustomer(Customer cust)
+        {
+            
+            SqlConnection con = new SqlConnection(cnn);
+
+            SqlCommand cmd = new SqlCommand("NewCustomer", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@id", cust.CustomerID);
+            cmd.Parameters.AddWithValue("@cname", cust.CustomerName);
+            cmd.Parameters.AddWithValue("@email", cust.EmailID);
+            cmd.Parameters.AddWithValue("@mob", cust.MobileNo);
+            con.Open();
+            int result = cmd.ExecuteNonQuery();
+
+            con.Close();
+            return result;
         }
-
-
-
-
-
-
-
+        
+      
 
     }
 }
@@ -113,6 +125,21 @@ namespace AdoMVC.Controllers
             CustomerList = custDAL.GetAllCustomers();
             return View(CustomerList);
         }
+         public IActionResult Insert()
+        {
+            return View();
+        }
+
+        public IActionResult NewCustomer(Customer cust)
+        {
+
+            CustomerDAL cobj = new CustomerDAL();
+            int result = cobj.NewCustomer(cust);
+            if (result == 1)
+                return RedirectToAction("Index");
+            else
+                return View("Insert");
+        }
 
         public IActionResult Privacy()
         {
@@ -139,7 +166,7 @@ Index.cshtml
     <table class="table">
         <thead>
             @*<tr>
-                    @using (Html.BeginForm("SearchCustomer", "Home", FormMethod.Post))
+                    @using (Html.BeginForm("Insert", "Home", FormMethod.Post))
                     {
                     CustomerID: <input type="Text" name ="CustomerID"/>
                             <input type = "submit" value ="Submit"/>
@@ -184,7 +211,52 @@ Index.cshtml
 </div>
 
 
+Insert.cshtml
 
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AdoMVC.Models.Customer
+@{
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("NewCustomer", "Home", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <th>CustomerDetails</th>
+
+            </tr>
+            <tr>
+                <td>CustomerID:</td>
+                <td>@Html.TextBoxFor(m => m.CustomerID)</td>
+            </tr>
+            <tr>
+                <td>CustomerName</td>
+                <td>@Html.TextBoxFor(m => m.CustomerName)</td>
+            </tr>
+            <tr>
+                <td>EMailID:</td>
+                <td>@Html.TextBoxFor(m => m.EmailID)</td>
+            </tr>
+            <tr>
+                <td>MobileNo:</td>
+                <td>@Html.TextBoxFor(m => m.MobileNo)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit" /></td>
+            </tr>
+        </table>
+
+    }
+</body>
+</html>
 
 
 
