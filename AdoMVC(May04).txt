@@ -1,0 +1,213 @@
+Ado.MVC
+
+MOdels-Customer.cs
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AdoMVC.Models
+{
+    public class Customer
+    {
+        [Key]
+        public int CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string EmailID { get; set; }
+        public string MobileNo { get; set; }
+    }
+}
+
+DAL-CustomerDAL
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using System.Data.SqlClient;
+using AdoMVC.Models;
+using System.Data;
+
+namespace AdoMVC.DAL
+{
+    public class CustomerDAL
+    {
+        public string cnn = "";
+
+
+        public CustomerDAL()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath
+                (Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+            cnn = builder.GetSection("ConnectionStrings:Conn").Value;
+        }
+
+        public List<Customer> GetAllCustomers()
+        {
+            List<Customer> listCustomer = new List<Customer>();
+            using (SqlConnection con = new SqlConnection(cnn))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetAllCustomers", con))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+                    IDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        listCustomer.Add(new Customer()
+                        {
+                            CustomerID = int.Parse(reader["CustomerID"].ToString()),
+                            CustomerName = reader["CustomerName"].ToString(),
+                            EmailID = reader["EmailID"].ToString(),
+                            MobileNo = reader["MobileNo"].ToString()
+                        }); ;
+                    }
+
+                }
+            }
+            return listCustomer;
+        }
+
+
+
+
+
+
+
+
+    }
+}
+
+HomeControllers:
+
+using AdoMVC.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using AdoMVC.DAL;
+using AdoMVC.Models;
+
+namespace AdoMVC.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            CustomerDAL custDAL = new CustomerDAL();
+            List<Customer> CustomerList = new List<Customer>();
+            CustomerList = custDAL.GetAllCustomers();
+            return View(CustomerList);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}
+
+
+Index.cshtml
+
+@model IEnumerable<AdoMVC.Models.Customer>
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<div>
+    <table class="table">
+        <thead>
+            @*<tr>
+                    @using (Html.BeginForm("SearchCustomer", "Home", FormMethod.Post))
+                    {
+                    CustomerID: <input type="Text" name ="CustomerID"/>
+                            <input type = "submit" value ="Submit"/>
+                    }
+                </tr>*@
+            <tr>
+                <th>
+                    @Html.DisplayName("ID")
+                </th>
+                <th>
+                    @Html.DisplayName("Customer Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Email ID")
+                </th>
+                <th>
+                    @Html.DisplayName("Mobile No")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MobileNo)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+appsettings.json
+
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "ConnectionStrings": {
+        "Conn": "server=LAPTOP-0SAKDNQM; database=Studentinfo; integrated security=true"
+    },
+    "AllowedHosts": "*"
+}
