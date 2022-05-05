@@ -1,0 +1,157 @@
+
+
+Homecontroller:
+
+  [Route("Edit")]
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        public IActionResult Editupd(int id,Customer ed)
+        {
+
+            CustomerDAL cobj = new CustomerDAL();
+            int result = cobj.Editupdate(id,ed);
+            if (result == 1)
+                return RedirectToAction("Index");
+            else
+                return View("Edit");
+        }
+        [Route("Del")]
+
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+
+        public IActionResult Del(int id,Customer d)
+        {
+            CustomerDAL cobj = new CustomerDAL();
+            int result = cobj.del(id, d);
+            if (result == 1)
+                return RedirectToAction("Index");
+            else
+                return View("Delete");
+        }
+
+Edit.cshtml
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AdoMVC.Models.Customer
+@{
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("Editupd", "Home", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <th>Edit Details</th>
+
+            </tr>
+            <tr>
+                <td>CustomerID</td>
+                <td>@Html.TextBoxFor(m => m.CustomerID)</td>
+            </tr>
+            <tr>
+                <td>CustomerName</td>
+                <td>@Html.TextBoxFor(m => m.CustomerName)</td>
+            </tr>
+            <tr>
+                <td>EMailID:</td>
+                <td>@Html.TextBoxFor(m => m.EmailID)</td>
+            </tr>
+            <tr>
+                <td>MobileNo:</td>
+                <td>@Html.TextBoxFor(m => m.MobileNo)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Edit" /></td>
+            </tr>
+        </table>
+
+    }
+</body>
+</html>
+
+Delete.cshtml
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AdoMVC.Models.Customer
+@{
+}
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("Del", "Home", FormMethod.Post))
+     {
+       <table>
+        <tr>
+            <th>Delete Customer</th>
+
+        </tr>
+        <tr>
+            <td>CustomerID</td>
+            <td>@Html.TextBoxFor(m => m.CustomerID)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Delete" /></td>
+        </tr>
+       </table>
+ 
+     }
+</body>
+
+Customer DAL:
+
+
+
+        public int Editupdate(int id,Customer ed)
+        {
+
+            SqlConnection con = new SqlConnection(cnn);
+
+            SqlCommand cmd = new SqlCommand("Edit", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CustId", ed.CustomerID);
+            cmd.Parameters.AddWithValue("@Custname", ed.CustomerName);
+            cmd.Parameters.AddWithValue("@Email", ed.EmailID);
+            cmd.Parameters.AddWithValue("@Mob", ed.MobileNo);
+            
+            con.Open();
+            int result = cmd.ExecuteNonQuery();
+
+            con.Close();
+            return result;
+        }
+
+
+        public int del(int id, Customer d)
+        {
+
+            SqlConnection con = new SqlConnection(cnn);
+
+            SqlCommand cmd = new SqlCommand("Deldata", con);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CustId", d.CustomerID);
+           
+
+            con.Open();
+            int result = cmd.ExecuteNonQuery();
+
+            con.Close();
+            return result;
+        }
